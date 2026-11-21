@@ -1,5 +1,5 @@
 import { readSession, writeSession, type Session } from '@/lib/session';
-
+import { v4 as uuidv4 } from "uuid";
 export const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://127.0.0.1:8000';
 const LOCAL_USERS = 'finshield_local_users_v1';
 
@@ -124,7 +124,8 @@ export async function signUp(input: { name: string; email: string; password: str
     if (users.some((user) => user.email === email)) {
       throw new Error('An account with that email already exists');
     }
-    const salt = crypto.randomUUID();
+    //const salt = crypto.randomUUID();
+    const salt = uuidv4();
     const user: LocalUser = {
       name,
       email,
