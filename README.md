@@ -127,22 +127,6 @@ The scoring logic considers factors such as:
 - Fixed financial commitments.
 - Remaining money after expenses.
 
-The score is associated with an understandable rating:
-
-| Score Range | Rating |
-|---|---|
-| 300–499 | Building |
-| 500–649 | Fair |
-| 650–749 | Good |
-| 750–849 | Strong |
-| 850–900 | Excellent |
-
-The system also generates improvement suggestions based on the user's financial data.
-
-Ollama can refine the score and recommendations while the local calculation provides a fallback.
-
-*Note: This is an application-generated financial health indicator, not an official credit bureau score.*
-
 ### 5. 🤖 AI-Powered Financial Insights
 
 PayTrackWise integrates Ollama to provide locally running AI capabilities.
@@ -198,64 +182,6 @@ The frontend includes a browser-based local storage fallback for account and led
 This helps preserve local user activity during development and provides an alternative to remote API-backed storage.
 
 ---
-
-## 🏗️ System Architecture
-
-PayTrackWise follows a frontend-backend architecture with separate responsibilities for the user interface, business logic, persistent storage, and AI processing.
-
-```mermaid
-flowchart TB
-    U["👤 User"]
-
-    subgraph FRONTEND["Frontend Layer"]
-        UI["Next.js Application"]
-        AUTH["Authentication & Onboarding"]
-        DASH["Financial Dashboard"]
-        TX["Transaction Management"]
-        INS["Financial Insights UI"]
-    end
-
-    subgraph BACKEND["Backend Layer"]
-        API["FastAPI REST API"]
-        SEC["Authentication & Security"]
-        SCORE["Financial Scoring Engine"]
-        OCR["Receipt OCR Service"]
-        AI["AI Insight Service"]
-    end
-
-    subgraph STORAGE["Data Layer"]
-        DB[("SQLite Database")]
-    end
-
-    subgraph AIENGINE["Local AI Layer"]
-        OLLAMA["Ollama"]
-        MODEL["Llama 3 8B"]
-    end
-
-    U --> UI
-    UI --> AUTH
-    UI --> DASH
-    UI --> TX
-    UI --> INS
-
-    AUTH --> API
-    DASH --> API
-    TX --> API
-    INS --> API
-
-    API --> SEC
-    API --> SCORE
-    API --> OCR
-    API --> AI
-
-    SEC --> DB
-    SCORE --> DB
-    OCR --> DB
-    AI --> DB
-
-    AI <--> OLLAMA
-    OLLAMA --> MODEL
-```
 
 ### Architecture Explanation
 
@@ -366,111 +292,6 @@ PAYTRACKWISE/
 └── run.sh
 ```
 
----
-
-## ⚙️ Installation & Setup
-
-Follow these instructions to run PayTrackWise locally.
-
-### Prerequisites
-
-Make sure you have installed:
-
-- [Node.js](https://nodejs.org/) (18.18 or newer recommended)
-- [Python](https://www.python.org/) (3.10+)
-- [Git](https://git-scm.com/)
-- [Ollama](https://ollama.com/)
-- Tesseract OCR (for receipt image scanning)
-
-### Step 1: Clone the Repository
-
-```bash
-git clone https://github.com/Smriti-hasija/PayTrackWise.git
-
-cd PayTrackWise
-```
-
-### Step 2: Set Up the Backend
-
-```bash
-cd backend
-
-python3 -m venv .venv
-```
-
-Activate the virtual environment.
-
-**macOS / Linux**
-
-```bash
-source .venv/bin/activate
-```
-
-**Windows**
-
-```bash
-.venv\Scripts\activate
-```
-
-Install backend dependencies:
-
-```bash
-pip install -r requirements
-```
-
-Return to the project root:
-
-```bash
-cd ..
-```
-
-### Step 3: Set Up the Frontend
-
-```bash
-cd frontend
-
-npm install
-
-cd ..
-```
-
-### Step 4: Configure Ollama
-
-Install Ollama and download the required model:
-
-```bash
-ollama pull llama3:8b
-```
-
-The application uses this model by default.
-
-### Step 5: Start the Application
-
-From the main project directory:
-
-```bash
-chmod +x run.sh
-
-./run.sh
-```
-
-The startup script coordinates the Ollama service, FastAPI backend, and Next.js frontend.
-
-### Step 6: Access the Application
-
-| Service | Local URL |
-|---|---|
-| PayTrackWise Frontend | http://localhost:3001 |
-| FastAPI Backend | http://localhost:8000 |
-| API Documentation | http://localhost:8000/docs |
-| API Health Check | http://localhost:8000/health |
-
-**Note:** The initial setup may take longer because Ollama needs to download the language model. Receipt scanning also requires a working Tesseract installation.
-
-Press `Ctrl + C` in the terminal to stop the processes started by the launcher.
-
----
-
 ## 🔌 API Endpoints
 
 The backend exposes REST APIs for the main application workflows.
@@ -554,77 +375,6 @@ These are planned enhancement areas, not claims that every feature is already im
 
 ---
 
-## 🧪 Testing
-
-The frontend includes a Node.js test script.
-
-To execute the available frontend tests:
-
-```bash
-cd frontend
-
-npm test
-```
-
-To build the frontend for production:
-
-```bash
-npm run build
-```
-
----
-
-## 📸 Application Preview
-
-Add actual application screenshots here to help visitors understand the interface.
-
-Suggested screenshots:
-
-| Screenshot | Description |
-|---|---|
-| Dashboard | Main financial overview |
-| Authentication | Sign-in and registration |
-| Onboarding | Financial profile setup |
-| Transactions | Income and expense ledger |
-| Financial Score | Financial health analysis |
-| AI Insights | AI-generated financial summaries |
-| Receipt Scanner | Receipt processing interface |
-
-Example image placement:
-
-```markdown
-![PayTrackWise Dashboard](docs/images/dashboard.png)
-```
-
----
-
-## 🤝 Contributing
-
-Contributions, suggestions, and improvements are welcome.
-
-1. Fork the repository.
-2. Create a feature branch.
-
-```bash
-git checkout -b feature/your-feature-name
-```
-
-3. Commit your changes.
-
-```bash
-git commit -m "Add: your feature description"
-```
-
-4. Push the branch.
-
-```bash
-git push origin feature/your-feature-name
-```
-
-5. Open a Pull Request describing your changes.
-
----
-
 ## 👩‍💻 Project Maintainer
 
 **Smriti-hasija**
@@ -635,15 +385,6 @@ Project Repository: [PayTrackWise](https://github.com/Smriti-hasija/PayTrackWise
 
 ---
 
-## 📄 Project Attribution
-
-This repository is maintained as a personal working copy of PayTrackWise, based on the upstream project:
-
-[Akshat-singla/PayTrackWise](https://github.com/Akshat-singla/PayTrackWise)
-
-Please retain appropriate upstream attribution and review the original repository's licensing terms before redistribution.
-
----
 
 <p align="center">
   <strong>PayTrackWise — Because every financial decision matters.</strong>
