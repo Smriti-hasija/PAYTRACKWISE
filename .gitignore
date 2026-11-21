@@ -1,11 +1,51 @@
-backend/.venv/
+# backend/.venv/
+# __pycache__/
+# *.py[cod]
+# .pytest_cache/
+# .mypy_cache/
+# .ruff_cache/
+# .env
+# .env.*
+# !.env.example
+# backend/data/*.db
+# backend/data/receipts/
+
+
+
+
+# Python
 __pycache__/
 *.py[cod]
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
+*.pyo
+.venv/
+venv/
+env/
+
+# Environment variables
 .env
 .env.*
 !.env.example
+
+# Next.js
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/build/
+
+# Build files
+dist/
+build/
+
+# Database
 backend/data/*.db
-backend/data/receipts/
+backend/data/*.sqlite
+backend/data/*.sqlite3
+
+# Editor and OS
+.DS_Store
+.vscode/
+.idea/
+
+# Logs
+*.log
+
